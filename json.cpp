@@ -683,7 +683,7 @@ static bool parse_value(const char **sp, JsonNode **out)
       return false;
     
     case '"': {
-      char *str;
+      char *str = NULL;
       if (parse_string(&s, out ? &str : NULL)) {
         if (out)
           *out = mkstring(str);
@@ -724,7 +724,7 @@ static bool parse_array(const char **sp, JsonNode **out)
 {
   const char *s = *sp;
   JsonNode *ret = out ? json_mkarray() : NULL;
-  JsonNode *element;
+  JsonNode *element = NULL;
   
   if (*s++ != '[')
     goto failure;
@@ -768,8 +768,8 @@ static bool parse_object(const char **sp, JsonNode **out)
 {
   const char *s = *sp;
   JsonNode *ret = out ? json_mkobject() : NULL;
-  char *key;
-  JsonNode *value;
+  char *key = NULL;
+  JsonNode *value = NULL;
   
   if (*s++ != '{')
     goto failure;
