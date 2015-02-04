@@ -1,17 +1,8 @@
 environment:
   CTEST_OUTPUT_ON_FAILURE: 1
   matrix:
-  - Compiler: mingw
-    Build: static
-    ruby_version: "21-x64"
-  - Compiler: mingw
-    Build: shared
-    ruby_version: "21-x64"
   - Compiler: msvc
     Config: Release
-    ruby_version: "21-x64"
-  - Compiler: msvc
-    Config: Debug
     ruby_version: "21-x64"
 
 cache:
@@ -62,15 +53,5 @@ build_script:
       }
 
 test_script:
-  - ps: |
-      if ($env:Compiler -eq "mingw") {
-        ruby sass-spec\sass-spec.rb -c sassc\bin\sassc.exe -s --ignore-todo sass-spec/spec
-      } else {
-        if ($env:Config -eq "Debug") {
-          echo test runner in debug mode build via msvc will throw debug assertions
-          echo ruby sass-spec\sass-spec.rb -c win\bin\Debug\sassc.exe -s --ignore-todo sass-spec/spec
-        } else {
-          ruby sass-spec\sass-spec.rb -c win\bin\sassc.exe -s --ignore-todo sass-spec/spec
-        }
-      }
-
+  - cmd: bld.bat
+  - ps: ./main.exe
